@@ -1,0 +1,95 @@
+﻿Hensikten med denne oppgaven er å øve på abstraksjon, koden kan virke i overkant avansert i forhold til den trenger å være med mange små klasser men tanken er å vise hvordan interface og arv kan brukes for å lage generisk gjenbrukbar kode for forskjellige klasseobjekter ^^ 
+
+Dere skal lage en WebShop som selger spill. 
+Løs oppgaven med arv og interface. 
+Noen spill er kun tilgjengelig i fysisk format, mens andre spill er kun tilgjengelig i nedlastingsformat. 
+Enkelte spill kan man velge mellom å kjøpe de fysisk, eller laste dem ned. 
+Felles for alle spill, er at de skal ha en pris, et navn og en id. 
+De skal også ha denne metoden:
+
+public void PrintGameNameAndPrice()
+{
+     Console.WriteLine($"Item: {GameName} Price: {Price} ID: {Id}");
+}
+
+WebShopen skal ha en inventory med disse fire spillene:
+
+Id: 1, Battlefield, pris: 150kr  (Kun nedlastbart)
+
+Id: 2, Cyberpunk, pris: 250kr  (Kan lastes ned, eller kjøpes som disk)
+
+Id: 3, Pokemon Let`s GO Evee, pris: 400kr (Kan kun kjøpes fysisk)
+
+Id: 4, PUBG, pris: 100kr (Kan lastes ned eller kjøpes som disk)
+
+--- OPPGAVE ---
+
+1. Lag en klasse StoreInventory med følgende constructor: 
+
+public StoreInventory()
+{
+            InventoryList = new List<GameItem>();
+            InventoryList.Add(new PUBG());
+            InventoryList.Add(new PokemonLetsGoEvee());
+            InventoryList.Add(new CyberPunk());
+            InventoryList.Add(new BattleField());
+}
+
+2. StoreInventory må inneholde:
+
+public List<GameItem> ListPhysicalItems()  for å finne alle elementene i InventoryList som selges i fysisk format
+public List<GameItem> ListDownLoadable() for å finne alle elementene som selges som downloadable content. 
+StoreInventory skal også ha metoder for å printe ut spillinformasjon basert på brukerinput i consollen. Fullfør også det som mangler for å printe ut infoen til hvert spill.
+
+public void PrintInventory(string command)
+ {           
+            if (command == "1")
+            {
+                Print(InventoryList);
+            }
+            else if(command == "2")
+            {
+                Print(ListPhysicalItems());
+            }
+            else
+            {
+                Print(ListDownLoadable());
+            }
+   }
+
+3. Legg til dette i constructoren til WebShop/GameShop klassen:
+
+
+while (true)
+{
+     Console.WriteLine("Welcome to the shop! ");
+     Console.WriteLine("1: Show all available games");
+     Console.WriteLine("2: Show only physical games");
+     Console.WriteLine("3: Show only downloadable games")
+
+     HandleCommand();
+ }        
+
+4. Handle Command metoden må fikses også! Sjekk kommentarer i koden
+
+
+// TODO:
+HandleCommand()
+{
+ 	// Skal lese inn input fra brukere her
+ 	// Inventory skal printe ut informasjon basert på valget brukeren tok. 
+Console.WriteLine("input the ID of game you want to buy");
+var gameID = Console.ReadLine();
+var gameToBuy = Inventory.InventoryList.Find(x => x.Id == gameID);
+ShoppingCart.Add(gameToBuy);
+//Sjekk på om spillet skal shippes eller lastes ned
+//Print ut med Download eller shipping metoden under
+}
+ private void PrintDownloadMessage(string gameName)
+ {
+      Console.WriteLine($"Game {gameName} will now be downloaded..");            
+ }
+ private void PrintShippingMessage(string gameName)
+ {
+       Console.WriteLine($"Game {gameName} will be shipped shortly..");
+ }
